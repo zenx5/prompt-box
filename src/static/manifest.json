@@ -4,10 +4,10 @@
     "version": "1.0",
     "manifest_version": 3,
     "background": {
-        "service_worker": "src/js/background.js"
+        "service_worker": "background.js"
     },
     "permissions": ["storage"],
     "action": {
-        "default_popup": "src/popup.html"
+        "default_popup": "index.html?path=popup"
     }
   }
