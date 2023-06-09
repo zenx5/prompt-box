@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Box, Button, IconButton, List, ListItem, ListItemText, Tooltip, Typography } from '@mui/material'
 import { Delete as DeleteIcon, CopyAll as CopyIcon, Check as CheckIcon } from '@mui/icons-material';
 import { useState, useEffect } from 'react'
@@ -5,10 +6,11 @@ import { useStorage } from '../services/StorageService'
 import ItemPrompt from './ItemPrompt';
 
 export default function ListPrompts({ compact }) {
+    const {t:translate} = useTranslation()
     const {prompts, empty, removePrompt } = useStorage()
 
     const handlerDelete = (index) => () => {
-        if( confirm(`Desea borrar el siguiente prompt: "${prompts[index]}"`) ) {
+        if( confirm(`${translate('confirm_delete')}: "${prompts[index]}"`) ) {
             removePrompt(index)
         }
     }
@@ -20,7 +22,7 @@ export default function ListPrompts({ compact }) {
 
     return <Box>
         <List>
-            { empty ? <Typography sx={styleEmptyMessage}>- Empty -</Typography> : <MapingPrompts />  }
+            { empty ? <Typography sx={styleEmptyMessage}>- {translate('empty')} -</Typography> : <MapingPrompts />  }
         </List>
     </Box>
 }
