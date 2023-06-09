@@ -13,16 +13,20 @@ export default function App(){
           case 'popup':
             navigate('/popup')
             break
+          case 'configuration':
+              navigate('/configuration')
+              break
           default:
             navigate('/')
             break
         }
-      }, [])
+    }, [])
 
     return(
         <Routes>
             <Route path='/' element='creado con React'/>
             <Route path='/popup' element={<Popup />} />
+            <Route path='/configuration' element={<Configuration />} />
         </Routes>
     )
 }
