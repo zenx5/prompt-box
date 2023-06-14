@@ -39,7 +39,7 @@ export default function Popup(){
     return <Box sx={{ width:'auto', minWidth:'600px' }}>
         <Typography variant='h5' sx={{ textAlign:'center', m:2}}>
             {translate('list_prompts')}
-            <Button onClick={handlerChangeLang}>{langTag}</Button>
+            <Button variant="outlined" sx={{ m:2 }} onClick={handlerChangeLang}>{langTag}</Button>
         </Typography>
         { create ? <FormPrompt notAllDelete onCreate={()=>setCreate(false)} /> : <ListPrompts compact/> }
         <Divider sx={{ m:2 }}/>
