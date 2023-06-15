@@ -1,4 +1,11 @@
 const ar = {
+    'name':'الاسم',
+    'content':'المحتوى',
+    'visible':'مرئي',
+    'not_visible':'غير مرئي',
+    'prompt':'ترتيب',
+    'folder':'مجلد',
+    'back':'الظهر',
     'list_prompts': 'قائمة الإرشادات',
     'add': 'إضافة',
     'manage': 'إدارة',

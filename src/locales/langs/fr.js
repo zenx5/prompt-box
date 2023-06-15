@@ -1,4 +1,11 @@
 const fr = {
+    'name':'Nom',
+    'content':'Contenu',
+    'visible':'Visible',
+    'not_visible':'Non visible',
+    'prompt':'Ordre',
+    'folder':'Dossier',
+    'back':'retour',
     'list_prompts': 'Liste des Prompts',
     'add': 'Ajouter',
     'manage': 'Gérer',

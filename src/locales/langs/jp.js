@@ -1,4 +1,11 @@
 const jp = {
+    'name':'名前',
+    'content':'内容',
+    'visible':'表示',
+    'not_visible':'非表示',
+    'prompt':'順序',
+    'folder':'フォルダ',
+    'back':'バック',
     'list_prompts': 'プロンプトのリスト',
     'add': '追加',
     'manage': '管理',

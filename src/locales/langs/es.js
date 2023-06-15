@@ -1,4 +1,11 @@
 const es = {
+    'name':'Nombre',
+    'content':'Contenido',
+    'visible':'Visible',
+    'not_visible':'No Visible',
+    'prompt':'Orden',
+    'folder':'Carpeta',
+    'back':'Atrás',
     'list_prompts' : 'Lista de Prompts',
     'add': 'Agregar',
     'manage': 'Administrar',

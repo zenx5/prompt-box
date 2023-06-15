@@ -1,4 +1,11 @@
 const pt = {
+    'name':'Nome',
+    'content':'Conteúdo',
+    'visible':'Visível',
+    'not_visible':'Não Visível',
+    'prompt':'Ordem',
+    'folder':'Pasta',
+    'back':'voltar',
     'list_prompts': 'Lista de Prompts',
     'add': 'Adicionar',
     'manage': 'Gerenciar',

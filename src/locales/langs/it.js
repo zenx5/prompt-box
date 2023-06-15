@@ -1,4 +1,11 @@
 const it = {
+    'name':'Nome',
+    'content':'Contenuto',
+    'visible':'Visibile',
+    'not_visible':'Non visibile',
+    'prompt':'Ordine',
+    'folder':'Cartella',
+    'back':'Indietro',
     'list_prompts': 'Elenco dei Prompts',
     'add': 'Aggiungi',
     'manage': 'Gestisci',
