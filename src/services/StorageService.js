@@ -16,13 +16,13 @@ const setItem = async (key, value) => {
     }
 }
 
-const getItem = async (key) => {
+const getItem = async (key, defaultError = []) => {
     try {
         const response = await chrome.storage.local.get(key)
         return response[key]
     } catch( error ) {
         console.log( error )
-        return []
+        return defaultError
     }
 }
 
@@ -30,37 +30,69 @@ const getItem = async (key) => {
 function ProviderStorage({ children }) {
     const [loaded, setLoaded] = useState( false );
     const [empty, setEmpty] = useState( true )
-    const [ prompts, setValue ] = useState([])
+    const [hasParent, setHasParent] = useState(false)
+    const [indexPrompt, setIndexPrompt] = useState(0)
+    const [prompts, setValue ] = useState([])
+    const [list, setList ] = useState([])
+    const [path, setPath] = useState([0])
 
     useEffect(() => {
         if( !loaded ) {
             (async ()=>{
-                setValue( await getItem('prompts') )
+                setValue( await getItem('prompts',[]) )
+                setIndexPrompt( await getItem('index',0) )
             })()
             setLoaded(true)
         }
     }, [prompts]);
 
     useEffect(() => {
-        if( prompts.length===0 && !empty ){
+        if( list.length===0 && !empty ){
             setEmpty(true)
-        } else if( prompts.length>0 && empty ) {
+        } else if( list.length>0 && empty ) {
             setEmpty(false)
         }
-    }, [prompts]);
+        setList( prev => getList() )
+    }, [prompts, path]);
 
-    const setPrompt = async (value) => {
-        const newPrompts = [
-            ...prompts,
-            value
-        ]
-        setValue( prevPrompts => newPrompts)
-        await setItem('prompts', newPrompts)
+    const go = async (newPath) => {
+        console.log('in go', newPath )
+        setHasParent( true )
+        setPath( prev => [...prev, newPath] )
     }
 
-    const removePrompt = async (value) => {
-        const isNumber = !Number.isNaN( Number(value) )
-        const newPrompts = prompts.filter( (prompt, index) => (isNumber?index:prompt)!==value )
+    const back = async () => {
+        if( hasParent ) {
+            setHasParent( path.slice(0,-1).length!==1 )
+            setPath( prev => prev.slice(0,-1) )
+        }
+    }
+
+    /**
+     * 
+     * @param {object} value 
+     *      type: folder|prompt
+     *      content: string
+            parent: integer
+            hidden: boolean
+     */
+    const setPrompt = async (value) => {
+        const newPrompt = {
+            ...value,
+            id: indexPrompt + 1,
+            parent: path.slice(-1)[0]
+        }
+        
+        const auxPrompts = [...prompts, newPrompt]
+        setValue( prevPrompts => auxPrompts)
+        await setItem('prompts', auxPrompts)
+        await setItem('index', indexPrompt + 1)
+        setIndexPrompt( prev => indexPrompt + 1)
+    }
+
+
+    const removePrompt = async (removeIndex) => {
+        const newPrompts = prompts.filter( prompt => (prompt.id!==removeIndex ))
         setValue( prevPrompts => newPrompts)
         await setItem('prompts', newPrompts)
     }
@@ -70,7 +102,22 @@ function ProviderStorage({ children }) {
         await setItem('prompts', [])
     }
 
-    return <ContextStorage.Provider value={{prompts, empty, setPrompt, removePrompt, clearPrompts}}>{children}</ContextStorage.Provider>
+    const getList = () => {
+        console.log(prompts)
+        return prompts.filter( prompt => prompt.parent===path.slice(-1)[0] )
+    }
+
+    return <ContextStorage.Provider 
+        value={{
+            list,
+            go,
+            back,
+            hasParent,
+            empty,
+            setPrompt,
+            removePrompt,
+            clearPrompts
+        }}>{children}</ContextStorage.Provider>
 }
 
 export { useStorage, ProviderStorage }
