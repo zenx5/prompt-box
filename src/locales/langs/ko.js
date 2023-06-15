@@ -1,4 +1,11 @@
 const ko = {
+    'name':'이름',
+    'content':'내용',
+    'visible':'표시',
+    'not_visible':'표시 안 함',
+    'prompt':'순서',
+    'folder':'폴더',
+    'back':'뒤로',
     'list_prompts': '프롬프트 목록',
     'add': '추가',
     'manage': '관리',

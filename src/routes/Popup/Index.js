@@ -1,10 +1,12 @@
 import { useTranslation } from "react-i18next"
-import { Typography, Box, Divider, Button, Popover } from "@mui/material"
+import { Typography, Box, Divider, Button, Popover, IconButton } from "@mui/material"
+import { ChevronLeft } from "@mui/icons-material"
 import { useNavigate } from "react-router-dom"
 import { ListPrompts, FormPrompt } from "../../components"
 import { useEffect, useState } from "react"
 import { allLangs } from "../../locales/config-lang"
 import i18n from "../../locales/i18n"
+import { useStorage } from "../../services/StorageService"
 
 export default function Popup(){
     const [currentLang, setCurrentLang] = useState( localStorage.getItem('i18nextLng') ?? 'es')
@@ -12,9 +14,9 @@ export default function Popup(){
     const [create, setCreate] = useState(false)
     const navigate = useNavigate()
     const { t:translate } = useTranslation()
+    const { back, hasParent } = useStorage()
 
     useEffect(()=>{
-        console.log('jj')
         setLangTag( prev => allLangs.find( langs => langs.value===currentLang ).label )
     },[currentLang])
 
@@ -25,6 +27,10 @@ export default function Popup(){
             console.log(error)
             navigate('/configuration')
         }
+    }
+
+    const handlerBack = () => {
+        back()
     }
 
     const handlerChangeLang = () => {
@@ -44,7 +50,8 @@ export default function Popup(){
         { create ? <FormPrompt notAllDelete onCreate={()=>setCreate(false)} /> : <ListPrompts compact/> }
         <Divider sx={{ m:2 }}/>
         <Box sx={{ display:'flex', flexDirection:'row', gap:3 }}>
-            <Button variant='outlined' onClick={ () => setCreate(true) } disabled={create} sx={{ display:'flex', mx:'auto' }}>{translate('add')}</Button>
+            <Button variant='outlined' startIcon={<ChevronLeft />} onClick={handlerBack} disabled={!hasParent} sx={{ display:'flex', mx:'auto' }}>{translate('back')}</Button>
+            <Button variant='outlined' onClick={()=>setCreate(true)} disabled={create} sx={{ display:'flex', mx:'auto' }}>{translate('add')}</Button>
             <Button variant='outlined' onClick={handlerOpenOptionsPage} sx={{ display:'flex', mx:'auto' }}>{translate('manage')}</Button>
         </Box>
     </Box>

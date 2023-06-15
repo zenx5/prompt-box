@@ -1,4 +1,11 @@
 const ru = {
+    'name':'Имя',
+    'content':'Содержание',
+    'visible':'Видимый',
+    'not_visible':'Невидимый',
+    'prompt':'Порядок',
+    'folder':'Папка',
+    'back':'назад',
     'list_prompts': 'Список подсказок',
     'add': 'Добавить',
     'manage': 'Управление',
