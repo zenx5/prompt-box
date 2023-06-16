@@ -7,9 +7,9 @@ import ItemPrompt from './ItemPrompt';
 
 export default function ListPrompts({ compact }) {
     const {t:translate} = useTranslation()
-    const {list:prompts, empty, removePrompt } = useStorage()
+    const {list:prompts, empty, removePrompt} = useStorage()
 
-    const handlerDelete = (index) => () => {
+    const handlerDelete = (index) => {
         const prompt = prompts.find(prompt => prompt.id===index)
         const name = prompt.name ?? prompt.content
         if( confirm(`${translate('confirm_delete')}: "${name}"`) ) {
@@ -17,9 +17,8 @@ export default function ListPrompts({ compact }) {
         }
     }
 
-
     const MapingPrompts = () => {
-        return prompts.map( (prompt) => <ItemPrompt key={prompt.id} prompt={prompt} compact={compact} onDelete={handlerDelete(prompt.id)} /> )
+        return prompts.map( (prompt) => <ItemPrompt key={prompt.id} prompt={prompt} compact={compact} onDelete={()=>handlerDelete(prompt.id)} /> )
     }
 
     return <Box>

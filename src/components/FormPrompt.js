@@ -1,15 +1,26 @@
 import { useTranslation } from "react-i18next"
 import { Box, TextField, Button, Select, MenuItem } from '@mui/material'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useStorage } from '../services/StorageService'
 
 export default function FormPrompt({ notAllDelete, onCreate, onAllDelete, sx={} }) {
+    const [index, setIndex] = useState(null);
     const [name, setName] = useState('');
     const [content, setContent] = useState('');
     const [type, setType] = useState('prompt');
     const [visible, setVisible] = useState(true);
     const { t:translate } = useTranslation()
-    const { setPrompt, clearPrompts } = useStorage()
+    const { current, setPrompt, clearPrompts } = useStorage()
+
+    useEffect(()=>{
+        if( current ) {
+            setIndex( prev => current.id )
+            setName( prev => current.name )
+            setContent( prev => current.content )
+            setType( prev => current.type )
+            setVisible( prev => !current.hidden )
+        }
+    },[current])
 
     const handlerChangeName = (event) => {
         setName( prev => event?.target?.value )
@@ -28,17 +39,20 @@ export default function FormPrompt({ notAllDelete, onCreate, onAllDelete, sx={} 
 
     const handlerSave = () => {
         setPrompt({
+            id:index,
             name,
             content,
             type,
             hidden: type==='folder' ? false : !visible
         })
         if( onCreate ) onCreate( {
+            id:index,
             name,
             content,
             type,
             hidden: type==='folder' ? false : !visible
         } )
+        setIndex(null)
         setName('')
         setContent('')
         setType('prompt')
