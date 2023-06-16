@@ -1,7 +1,7 @@
 {
     "name": "Prompt Box",
     "description": "Almacena tus prompts para IA",
-    "version": "2",
+    "version": "2.1",
     "icons":{
         "16":"logo.png",
         "32":"logo.png",
