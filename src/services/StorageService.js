@@ -35,6 +35,7 @@ function ProviderStorage({ children }) {
     const [prompts, setValue ] = useState([])
     const [list, setList ] = useState([])
     const [path, setPath] = useState([0])
+    const [current, setCurrentPrompt] = useState(null)
 
     useEffect(() => {
         if( !loaded ) {
@@ -77,18 +78,21 @@ function ProviderStorage({ children }) {
             hidden: boolean
      */
     const setPrompt = async (value) => {
-        const newPrompt = {
+        const newPrompt = value.id ? {...value, parent:current.parent} : {
             ...value,
             id: indexPrompt + 1,
             hidden: value.type==='folder' ? false : value.hidden,
             parent: path.slice(-1)[0]
         }
-        
-        const auxPrompts = [...prompts, newPrompt]
+        const index = value.id ? prompts.findIndex( prompt => prompt.id == value.id ) : prompts.length
+        const auxPrompts = prompts.toSpliced(index,1,newPrompt)
         setValue( prevPrompts => auxPrompts)
         await setItem('prompts', auxPrompts)
-        await setItem('index', indexPrompt + 1)
-        setIndexPrompt( prev => indexPrompt + 1)
+        if( value.id ){
+            await setItem('index', indexPrompt + 1)
+            setIndexPrompt( prev => indexPrompt + 1)
+            setCurrentPrompt(null)
+        }
     }
 
 
@@ -113,6 +117,10 @@ function ProviderStorage({ children }) {
         return null
     }
 
+    const setCurrent = (index) => {
+        setCurrentPrompt( prev => prompts.find( prompt => prompt.id==index) )
+    }
+
     return <ContextStorage.Provider 
         value={{
             list,
@@ -124,7 +132,9 @@ function ProviderStorage({ children }) {
             empty,
             setPrompt,
             removePrompt,
-            clearPrompts
+            clearPrompts,
+            current,
+            setCurrent
         }}>{children}</ContextStorage.Provider>
 }
 
