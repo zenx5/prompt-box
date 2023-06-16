@@ -18,7 +18,7 @@ export default function BreadCrumbs() {
     return <Box sx={{ display:'flex', mx:5, p:0, alignItems:'center' }}>
         {joiner( path.map( (id, index) => {
             const name = getBy('name', 'id', id)
-            return <ButtonBase key={id} sx={{ fontSize:'1.3rem' }} onClick={()=>handlerBack(index)}>{name ?? 'root'}</ButtonBase>
+            return <ButtonBase key={id} sx={{ fontSize:'1.3rem' }} onClick={()=>handlerBack(index)}>{name ?? 'Root'}</ButtonBase>
         } ), <ChevronRight />)}
     </Box>
 }
