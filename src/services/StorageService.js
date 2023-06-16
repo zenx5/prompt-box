@@ -47,24 +47,24 @@ function ProviderStorage({ children }) {
     }, [prompts]);
 
     useEffect(() => {
-        if( list.length===0 && !empty ){
+        const newList = getList()
+        if( newList.length===0 && !empty ){
             setEmpty(true)
-        } else if( list.length>0 && empty ) {
+        } else if( newList.length>0 && empty ) {
             setEmpty(false)
         }
-        setList( prev => getList() )
+        setList( prev => newList )
     }, [prompts, path]);
 
     const go = async (newPath) => {
-        console.log('in go', newPath )
         setHasParent( true )
         setPath( prev => [...prev, newPath] )
     }
 
-    const back = async () => {
+    const back = async (steps = 1) => {
         if( hasParent ) {
-            setHasParent( path.slice(0,-1).length!==1 )
-            setPath( prev => prev.slice(0,-1) )
+            setHasParent( path.slice(0,-steps).length!==1 )
+            setPath( prev => prev.slice(0,-steps) )
         }
     }
 
@@ -80,6 +80,7 @@ function ProviderStorage({ children }) {
         const newPrompt = {
             ...value,
             id: indexPrompt + 1,
+            hidden: value.type==='folder' ? false : value.hidden,
             parent: path.slice(-1)[0]
         }
         
@@ -103,15 +104,22 @@ function ProviderStorage({ children }) {
     }
 
     const getList = () => {
-        console.log(prompts)
         return prompts.filter( prompt => prompt.parent===path.slice(-1)[0] )
+    }
+
+    const getBy = (searchValue, keyTarget, valueKey) => {
+        const result = prompts.find( prompt => prompt[keyTarget]===valueKey )
+        if( result ) return result[searchValue]
+        return null
     }
 
     return <ContextStorage.Provider 
         value={{
             list,
+            getBy,
             go,
             back,
+            path,
             hasParent,
             empty,
             setPrompt,

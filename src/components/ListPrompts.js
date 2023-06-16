@@ -8,7 +8,6 @@ import ItemPrompt from './ItemPrompt';
 export default function ListPrompts({ compact }) {
     const {t:translate} = useTranslation()
     const {list:prompts, empty, removePrompt } = useStorage()
-    console.log('prompts',prompts)
 
     const handlerDelete = (index) => () => {
         const prompt = prompts.find(prompt => prompt.id===index)

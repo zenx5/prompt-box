@@ -3,6 +3,7 @@ import { Typography, Box, Divider, Button } from "@mui/material"
 import { ChevronLeft } from "@mui/icons-material"
 import { ListPrompts, FormPrompt } from "../../components"
 import { useStorage } from "../../services/StorageService"
+import BreadCrumbs from "../../components/BreadCrumbs"
 
 export default function Configuration(){
     const { t:translate } = useTranslation()
@@ -10,6 +11,7 @@ export default function Configuration(){
 
     return <Box sx={{ width:'auto'}}>
         <Typography variant='h5' sx={{ textAlign:'center', m:2}}>{translate('list_prompts')}</Typography>
+        <BreadCrumbs />
         <ListPrompts/>
         <Divider sx={{ m:2 }}/>
         <Box sx={{ display:'flex', flexDirection:'row', justifyContent:'center', alignItems:'center', gap:2 }}>

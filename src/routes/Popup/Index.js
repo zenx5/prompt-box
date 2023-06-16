@@ -7,6 +7,7 @@ import { useEffect, useState } from "react"
 import { allLangs } from "../../locales/config-lang"
 import i18n from "../../locales/i18n"
 import { useStorage } from "../../services/StorageService"
+import BreadCrumbs from "../../components/BreadCrumbs"
 
 export default function Popup(){
     const [currentLang, setCurrentLang] = useState( localStorage.getItem('i18nextLng') ?? 'es')
@@ -47,6 +48,7 @@ export default function Popup(){
             {translate('list_prompts')}
             <Button onClick={handlerChangeLang}>{langTag}</Button>
         </Typography>
+        <BreadCrumbs />
         { create ? <FormPrompt notAllDelete onCreate={()=>setCreate(false)} /> : <ListPrompts compact/> }
         <Divider sx={{ m:2 }}/>
         <Box sx={{ display:'flex', flexDirection:'row', gap:3 }}>
