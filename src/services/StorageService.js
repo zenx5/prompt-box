@@ -88,7 +88,7 @@ function ProviderStorage({ children }) {
         const auxPrompts = prompts.toSpliced(index,1,newPrompt)
         setValue( prevPrompts => auxPrompts)
         await setItem('prompts', auxPrompts)
-        if( value.id ){
+        if( !value.id ){
             await setItem('index', indexPrompt + 1)
             setIndexPrompt( prev => indexPrompt + 1)
             setCurrentPrompt(null)
