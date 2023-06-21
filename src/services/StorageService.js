@@ -121,6 +121,49 @@ function ProviderStorage({ children }) {
         setCurrentPrompt( prev => prompts.find( prompt => prompt.id==index) )
     }
 
+    const importData = async (data) => {
+        let { parent, items } = data
+        const [current] = path.slice(-1)
+        let newPrompts = []
+        let pivot = []
+        let nextIndex = indexPrompt
+        for(const item of items) {
+            nextIndex++
+            pivot[ item.id ] = nextIndex
+            const newParent = parent===item.parent ? current : pivot[item.parent]
+            newPrompts.push({
+                ...item,
+                id:nextIndex,
+                parent: newParent
+            })
+        }
+        await setItem('index', nextIndex )
+        setIndexPrompt( prev => nextIndex )
+        await setItem('prompts', [...prompts, ...newPrompts] )
+        setValue( prev => [...prompts, ...newPrompts] )
+    }
+
+    const exportData = () => {
+        const link = document.createElement('a')
+        const currentPath = path.slice(-1)[0]
+        const name = getBy('name', 'id', currentPath) || 'Root'
+        let data = {
+            parent: currentPath,
+            items: []
+        }
+        for( const prompt of prompts ) {
+            const listId = data.items.map( item => item.id )
+            if( prompt.parent===data.parent ||  listId.includes(prompt.parent) ) {
+                data.items.push( prompt )
+            }
+        }
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(data));
+        link.setAttribute('download', `${name}.csv`)
+        link.setAttribute('href',dataStr)
+        link.setAttribute('style','display:none')
+        link.click()
+    }
+
     return <ContextStorage.Provider 
         value={{
             list,
@@ -134,7 +177,9 @@ function ProviderStorage({ children }) {
             removePrompt,
             clearPrompts,
             current,
-            setCurrent
+            setCurrent,
+            exportData, 
+            importData
         }}>{children}</ContextStorage.Provider>
 }
 
