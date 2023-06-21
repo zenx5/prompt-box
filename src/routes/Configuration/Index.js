@@ -18,5 +18,6 @@ export default function Configuration(){
             <Button variant='outlined' onClick={()=>back()} disabled={!hasParent}><ChevronLeft /></Button>
             <FormPrompt sx={{ width:'80%' }} />
         </Box>
+        <Typography sx={{ textAlign:'center', fontWeight:'bold', mt:3 }}>Paypal: omartinez1618@gmail.com</Typography>
     </Box>
 }
