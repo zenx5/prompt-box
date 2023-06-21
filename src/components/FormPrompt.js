@@ -86,7 +86,7 @@ export default function FormPrompt({ notAllDelete, onCreate, onAllDelete, sx={} 
                 <MenuItem value={false}>{translate('not_visible')}</MenuItem>
             </Select>
             <Box  sx={{ display:'flex', flexDirection:'row', justifyContent:'center', width:'40%', gap:2 }}>
-                <Button variant='contained' size='small' onClick={handlerSave}>{translate('save')}</Button>
+                <Button variant='contained' size='small' onClick={handlerSave} disabled={name.trim()===''}>{translate('save')}</Button>
                 { !notAllDelete && <Button variant='contained'  size='small' color='error' onClick={handlerAllDelete} >{translate('delete_all')}</Button>}
             </Box>
         </Box>
