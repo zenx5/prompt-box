@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next"
-import { Typography, Box, Divider, Button } from "@mui/material"
+import { Typography, Box, Divider, Button, Link } from "@mui/material"
 import { ChevronLeft } from "@mui/icons-material"
 import { ListPrompts, FormPrompt } from "../../components"
 import { useStorage } from "../../services/StorageService"
@@ -18,6 +18,8 @@ export default function Configuration(){
             <Button variant='outlined' onClick={()=>back()} disabled={!hasParent}><ChevronLeft /></Button>
             <FormPrompt sx={{ width:'80%' }} />
         </Box>
-        <Typography sx={{ textAlign:'center', fontWeight:'bold', mt:3 }}>Paypal: omartinez1618@gmail.com</Typography>
+        <Typography sx={{ textAlign:'center', mt:3, mx:'auto' }}>
+            <Link href="https://paypal.me/omartinez8">paypal.me/omartinez8</Link>
+        </Typography>
     </Box>
 }
